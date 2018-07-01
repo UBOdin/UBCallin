@@ -53,6 +53,8 @@ class SerialPort():
                 feed[i] = feed[i].rstrip()
                 print "Read: '{}'".format(feed[i])
             response = response + feed
+            if "ERROR" in feed:
+                return response
         return response
 
     def request(self, data, end_marker = None):
