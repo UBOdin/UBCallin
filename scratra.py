@@ -31,7 +31,7 @@ class RemoteSensors:
     def __setitem__(self, sensor_name, value):
         if isinstance(value, str):
             v = Scratch.toScratchMessage('sensor-update "' + sensor_name +'" "'+value+'"')
-            self.sensor_valueues[sensor_name] = value
+            self.sensor_values[sensor_name] = value
             scratchSocket.send(v)
         elif isinstance(value, int) or isinstance(value, float):
             v = Scratch.toScratchMessage('sensor-update "' + sensor_name +'" ' + str(value))

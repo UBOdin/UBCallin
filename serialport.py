@@ -64,6 +64,7 @@ class SerialPort():
     def check(self):
         self.model = self.request('ATI', 'OK')
         print self.model
+        return self.model
     
     def close(self):
         self.serialport.close()

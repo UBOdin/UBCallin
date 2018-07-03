@@ -67,6 +67,13 @@ class Fona800:
         # The following asks the FONA to provide Caller ID details
         self.fona.request('AT+CLIP=1', 'OK')
 
+    def check_phone(self):
+        try:
+            return self.fona.check()
+        except e:
+            print "Not connected: {}".format(e)
+            return None
+        
     def toggle_power(self):
         self.gpio.write(self.key_pin, 1)
         sleep(.25)
@@ -105,7 +112,7 @@ class Fona800:
         print "... done"
 
     def call_phone(self, number):
-        self.fona.request(number, 'OK')
+        self.fona.request('ATD{};'.format(number), 'OK')
 
     def receive_call(self):
         self.fona.request('ATA', 'OK')
@@ -165,6 +172,8 @@ class Fona800:
                     caller = caller.split(",")[0].replace('"', "")
             print "Call from {}".format(caller)
             print event
+            if self.call_handler != None:
+                self.call_handler(self, caller)
         else:
             print "Unknown Event: {}".format(event)
         
