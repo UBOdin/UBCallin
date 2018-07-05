@@ -37,13 +37,14 @@ class Fona800:
                  call_handler = None,
                  sms_handler = None,
                  key_pin = 21,
-                 rcv_pin = 5):
+                 rcv_pin = 5,
+                 gpio = pigpio.pi()):
         self.key_pin = key_pin   # FONA KEY: Output: Write a 0 to this pin to turn the FONA on.
         self.rcv_pin = rcv_pin   # FONA RCV: Input: Pull up, read a 0 when the FONA receives a call or SMS
         self.call_handler = call_handler
         self.sms_handler = sms_handler
         self.fona = SerialPort()
-        self.gpio = pigpio.pi()
+        self.gpio = gpio
 
         # Set the KEY pin up.  Normally we don't really want to twiddle this bit... but we should
         # tie it down to 0 so the FONA powers up.

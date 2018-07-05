@@ -35,7 +35,7 @@ class RemoteSensors:
             scratchSocket.send(v)
         elif isinstance(value, int) or isinstance(value, float):
             v = Scratch.toScratchMessage('sensor-update "' + sensor_name +'" ' + str(value))
-            self.sensor_valueues[sensor_name] = value
+            self.sensor_values[sensor_name] = value
             scratchSocket.send(v)
         else:
             raise ScratchInvalidValue(sensor_name + ': Incorrect attempted value')
