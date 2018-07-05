@@ -1,0 +1,17 @@
+[Unit]
+Description=FONA to Scratch Bridge
+After=graphical.target pigpiod.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python2 /opt/PhoneServer/python/phoneserver.py
+Restart=always
+RestartSec=1
+TimeoutSec=infinity
+StartLimitInterval=10000
+StartLimitBurst=20
+User=pi
+Environment="DISPLAY=:0.0"
+
+[Install]
+WantedBy=graphical.target

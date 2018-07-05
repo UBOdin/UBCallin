@@ -5,6 +5,7 @@
 # Used under MIT License.
 
 import serial, time
+from datetime import datetime, timedelta
 
 class SerialPort():
     def __init__(self):
@@ -41,10 +42,11 @@ class SerialPort():
         print "Writing: {}".format(data)
         self.serialport.write(data + '\r')
 
-    def receive(self, end_marker = None):
+    def receive(self, end_marker = None, timeout = datetime.now() + timedelta(seconds=3)):
         if self.serialport == None:
             raise "Not Connected"
         response = []
+
         while (len(response) <= 0) or ((end_marker != None) and (end_marker not in response)):
             print "Reading..."
             feed = self.serialport.readlines()
@@ -54,6 +56,8 @@ class SerialPort():
                 print "Read: '{}'".format(feed[i])
             response = response + feed
             if "ERROR" in feed:
+                return response
+            if datetime.now() > timeout:
                 return response
         return response
 

@@ -1,6 +1,7 @@
 from scratra2 import broadcast, start, update
 import scratra2
 from fona800 import Fona800
+import fona800
 import easygui
 import re
 import pigpio
@@ -25,9 +26,9 @@ def on_start(scratch):
     global_scratch = scratch
     if phone == None:
         phone = Fona800(
-            call_handler = incoming_call(local_phone, caller),
+            call_handler = incoming_call,
             gpio = gpio
-        ) 
+        )
     print "Phone is running"
 
 @broadcast('hi')
@@ -59,19 +60,31 @@ def pick_up(scratch):
     phone.receive_call()
 
 @broadcast('turn-led-on')
+def turn_led_on(scratch):
     global gpio
     print "LED On"
     gpio.write(LED_PIN, 1)
 
 @broadcast('turn-led-off')
+def turn_led_off(scratch):
     global gpio
     print "LED Off"
     gpio.write(LED_PIN, 0)
 
+@broadcast('audio-speaker')
+def audio_speaker(scratch):
+    global phone
+    phone.set_audio(fona800.FONA_AUDIO_EXTERNAL)
+
+@broadcast('audio-headphones')
+def audio_speaker(scratch):
+    global phone
+    phone.set_audio(fona800.FONA_AUDIO_HEADSET)
+
 @update('outgoing-number')
 def new_outgoing_number(scratch, value):
     pass;
-    
+
 @broadcast('start-call')
 def dial(scratch):
     global phone
@@ -85,18 +98,21 @@ def dial(scratch):
     else:
         print "Dialing... '{}'".format(target_number)
         phone.call_phone(target_number)
-    
+
 def button_pushed(which):
     global global_scratch
+    print "Button {} pressed".format(which)
     global_scratch.broadcast("button-{}-pressed".format(which))
 
 for i in range(0, len(BUTTON_PINS)):
     v = i+1
     gpio.set_mode(BUTTON_PINS[i], pigpio.INPUT)
+    gpio.set_pull_up_down(BUTTON_PINS[i], pigpio.PUD_UP)
+    print "Setting up button on GPIO-{}".format(BUTTON_PINS[i])
     gpio.callback(
         BUTTON_PINS[i],
-        pigpio.RISING_EDGE,
-        lambda pin, level, tick: button_pushed(v)
+        pigpio.FALLING_EDGE,
+        lambda pin, level, tick, button=i+1: button_pushed(button)
     )
 gpio.set_mode(LED_PIN, pigpio.OUTPUT)
 gpio.write(LED_PIN, 0)
