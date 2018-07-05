@@ -2,3 +2,5 @@ Cobbled together from a variety of sources
  - https://github.com/spadgenske/TYOS
  - https://github.com/adafruit/Adafruit_FONA/blob/master/Adafruit_FONA.cpp
  - https://cdn-shop.adafruit.com/product-files/1946/SIM800+Series_AT+Command+Manual_V1.09.pdf
+
+This project supported by NSF Award IIS-1750460, as well as generous contributions from National Grid. 
