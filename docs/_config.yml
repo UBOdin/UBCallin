@@ -16,8 +16,7 @@
 title: UBCallin
 email: okennedy.piphone@xthemage.net
 description: >- # this means to ignore newlines until "baseurl:"
-  Follow-up projects for the LIBERTY Pi Phone.
-  Keep track of this site for new and exciting project ideas.
+  Contributions from: Maggie Liu, Shubhendu Kumar Singh, Sohit Reddy, Romil Vipulbhai Shah, Jennifer Winikus, Jaroslaw Zola, Chi Zhou, Nils Napp, Donald Goralski, Hongyue Sun
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://ubcallin.info" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  okennedy
