@@ -31,6 +31,7 @@ def connect_to_phone_if_needed():
             print "Phone is running"
             return True
         except:
+            print sys.exc_info()
             easygui.msgbox("Error connecting to FONA: {}".format(sys.exc_info()[0]))
             phone = None
             return False
@@ -43,8 +44,8 @@ def on_start(scratch):
     global phone
     global gpio
     global_scratch = scratch
-    connect_to_phone_if_needed()
-    phone.set_audio(fona800.FONA_AUDIO_EXTERNAL)
+    if connect_to_phone_if_needed():
+        phone.set_audio(fona800.FONA_AUDIO_EXTERNAL)
 
 @broadcast('hi')
 def hi(scratch):
