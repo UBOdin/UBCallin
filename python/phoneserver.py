@@ -5,6 +5,7 @@ import fona800
 import easygui
 import re
 import pigpio
+import sys
 
 BUTTON_PINS = [27, 23, 22, 17]
 LED_PIN = 6
