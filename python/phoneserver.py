@@ -43,6 +43,7 @@ def on_start(scratch):
     global gpio
     global_scratch = scratch
     connect_to_phone_if_needed()
+    phone.set_audio(fona800.FONA_AUDIO_EXTERNAL)
 
 @broadcast('hi')
 def hi(scratch):
@@ -96,7 +97,7 @@ def audio_speaker(scratch):
     phone.set_audio(fona800.FONA_AUDIO_EXTERNAL)
 
 @broadcast('audio-headphones')
-def audio_speaker(scratch):
+def audio_headphones(scratch):
     global phone
     phone.set_audio(fona800.FONA_AUDIO_HEADSET)
 
