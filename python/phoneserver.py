@@ -58,7 +58,7 @@ def hi(scratch):
     )
 
 @broadcast('toggle-power')
-def toggle_power():
+def toggle_power(scratch):
     global phone
     phone.toggle_power()
 
