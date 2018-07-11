@@ -63,7 +63,7 @@ class Fona800:
 
         sleep(1)
         if not self.fona.connect():
-            raise "Error connecting"
+            raise EnvironmentError("Error connecting")
 
         # The following asks the FONA to provide Caller ID details
         self.fona.request('AT+CLIP=1', 'OK')
@@ -92,7 +92,7 @@ class Fona800:
                 elif line[1] == "2":
                     status = "Fully Charged"
                 return (status, int(line[1]), int(line[2]))
-        raise "Error reading battery status"
+        raise EnvironmentError("Error reading battery status")
             
     def send_sms(self, number, message):
         # This asks the phone to put us into text mode
