@@ -57,6 +57,11 @@ def hi(scratch):
         title = "Hi from Pi-Phone"
     )
 
+@broadcast('toggle-power')
+def toggle_power():
+    global phone
+    phone.toggle_power()
+
 @broadcast('ping')
 def ping(scratch):
     scratch.broadcast('pong')
