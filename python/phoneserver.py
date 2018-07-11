@@ -18,7 +18,7 @@ def incoming_call(phone, caller):
     global_scratch["incoming-number"] = caller
     global_scratch.broadcast("incoming-call")
 
-def connect_to_phone_if_needed()
+def connect_to_phone_if_needed():
     global phone
     global gpio
     if phone == None:
