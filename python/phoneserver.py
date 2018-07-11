@@ -18,24 +18,38 @@ def incoming_call(phone, caller):
     global_scratch["incoming-number"] = caller
     global_scratch.broadcast("incoming-call")
 
+def connect_to_phone_if_needed()
+    global phone
+    global gpio
+    if phone == None:
+        try:
+            phone = Fona800(
+                call_handler = incoming_call,
+                gpio = gpio
+            )
+            print "Phone is running"
+            return True
+        except:
+            easygui.msgbox("Error connecting to FONA: {}".format(sys.exc_info()[0]))
+            phone = None
+            return False
+    return True
+
+
 @start
 def on_start(scratch):
     global global_scratch
     global phone
     global gpio
     global_scratch = scratch
-    if phone == None:
-        phone = Fona800(
-            call_handler = incoming_call,
-            gpio = gpio
-        )
-    print "Phone is running"
+    connect_to_phone_if_needed()
 
 @broadcast('hi')
 def hi(scratch):
+    connect_to_phone_if_needed()
     global phone
-    connection = phone.check_phone()
     status_string = "Pi Phone is Not Connected"
+    connection = phone.check_phone()
     if connection != None:
         status_string = "Pi Phone is Connected to {}".format(connection)
     easygui.msgbox(
