@@ -140,8 +140,9 @@ def dial(scratch):
 ####### Finally, asynchronously connect to the FONA and Scratch
 class FonaConnectThread(threading.Thread):
     def __init__(self, phone):
-        self.phone = phone
         threading.Thread.__init__(self)
+        self.phone = phone
+        self.daemon = True
 
     def run(self):
         print "Attempting to connect to FONA..."
@@ -151,6 +152,6 @@ class FonaConnectThread(threading.Thread):
             print "Re-attempting to connect to FONA..."
         print "... FONA connection successful!"
 
-# FonaConnectThread(phone).start()
+FonaConnectThread(phone).start()
 scratra2.run()
 
