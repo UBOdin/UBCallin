@@ -105,37 +105,37 @@ def dial(scratch):
         phone.call_phone(target_number)
 
 ###### Handlers for the PiTFT display
-def button_pushed(which):
-    global global_scratch
-    print "Button {} pressed".format(which)
-    global_scratch.broadcast("button-{}-pressed".format(which))
+# def button_pushed(which):
+#     global global_scratch
+#     print "Button {} pressed".format(which)
+#     global_scratch.broadcast("button-{}-pressed".format(which))
 
-for i in range(0, len(BUTTON_PINS)):
-    v = i+1
-    gpio.set_mode(BUTTON_PINS[i], pigpio.INPUT)
-    gpio.set_pull_up_down(BUTTON_PINS[i], pigpio.PUD_UP)
-    print "Setting up button on GPIO-{}".format(BUTTON_PINS[i])
-    gpio.callback(
-        BUTTON_PINS[i],
-        pigpio.FALLING_EDGE,
-        lambda pin, level, tick, button=i+1: button_pushed(button)
-    )
+# for i in range(0, len(BUTTON_PINS)):
+#     v = i+1
+#     gpio.set_mode(BUTTON_PINS[i], pigpio.INPUT)
+#     gpio.set_pull_up_down(BUTTON_PINS[i], pigpio.PUD_UP)
+#     print "Setting up button on GPIO-{}".format(BUTTON_PINS[i])
+#     gpio.callback(
+#         BUTTON_PINS[i],
+#         pigpio.FALLING_EDGE,
+#         lambda pin, level, tick, button=i+1: button_pushed(button)
+#     )
 
-###### Support for controlling an LED on GPIO-6
-gpio.set_mode(LED_PIN, pigpio.OUTPUT)
-gpio.write(LED_PIN, 0)
+# ###### Support for controlling an LED on GPIO-6
+# gpio.set_mode(LED_PIN, pigpio.OUTPUT)
+# gpio.write(LED_PIN, 0)
 
-@broadcast('turn-led-on')
-def turn_led_on(scratch):
-    global gpio
-    print "LED On"
-    gpio.write(LED_PIN, 1)
+# @broadcast('turn-led-on')
+# def turn_led_on(scratch):
+#     global gpio
+#     print "LED On"
+#     gpio.write(LED_PIN, 1)
 
-@broadcast('turn-led-off')
-def turn_led_off(scratch):
-    global gpio
-    print "LED Off"
-    gpio.write(LED_PIN, 0)
+# @broadcast('turn-led-off')
+# def turn_led_off(scratch):
+#     global gpio
+#     print "LED Off"
+#     gpio.write(LED_PIN, 0)
 
 ####### Finally, asynchronously connect to the FONA and Scratch
 class FonaConnectThread(threading.Thread):
