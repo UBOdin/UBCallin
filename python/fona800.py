@@ -39,12 +39,13 @@ class Fona800:
                  key_pin = 21,
                  rcv_pin = 5,
                  gpio = pigpio.pi()):
-        self.key_pin = key_pin   # FONA KEY: Output: Write a 0 to this pin to turn the FONA on.
+        self.key_pin = key_pin   # FONA KEY: Output: Write [0, 1] to this pin to toggle the FONA on or off
         self.rcv_pin = rcv_pin   # FONA RCV: Input: Pull up, read a 0 when the FONA receives a call or SMS
         self.call_handler = call_handler
         self.sms_handler = sms_handler
         self.fona = SerialPort()
         self.gpio = gpio
+        self.connected = False
 
         # Set the KEY pin up.  Normally we don't really want to twiddle this bit... but we should
         # tie it down to 0 so the FONA powers up.
@@ -61,12 +62,19 @@ class Fona800:
             lambda pin, level, tick: self.receive_event(pin, level, tick)
         )
 
+    def is_connected(self):
+        return self.connected
+
+    def try_connect(self):
+        if self.connected:
+            return True
         sleep(1)
         if not self.fona.connect():
-            raise EnvironmentError("Error connecting")
-
+            return False
         # The following asks the FONA to provide Caller ID details
         self.fona.request('AT+CLIP=1', 'OK')
+        self.connected = True
+        return True
 
     def check_phone(self):
         try:

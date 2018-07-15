@@ -6,46 +6,41 @@ import easygui
 import re
 import pigpio
 import sys
+import threading
+from time import sleep
 
+###### GLOBAL CONFIGURATION
 BUTTON_PINS = [27, 23, 22, 17]
 LED_PIN = 6
 
+###### Placeholder variables for communicating between different components.
 gpio = pigpio.pi()
-phone = None
 global_scratch = None
 
+###### Handler for responding to incoming phone calls
 def incoming_call(phone, caller):
     global global_scratch
     global_scratch["incoming-number"] = caller
     global_scratch.broadcast("incoming-call")
 
-def connect_to_phone_if_needed():
-    global phone
-    global gpio
-    if phone == None:
-        try:
-            phone = Fona800(
-                call_handler = incoming_call,
-                gpio = gpio
-            )
-            print "Phone is running"
-            return True
-        except:
-            print sys.exc_info()
-            easygui.msgbox("Error connecting to FONA: {}".format(sys.exc_info()[0]))
-            phone = None
-            return False
-    return True
+###### Define the phone interface itself
+phone = Fona800(
+    call_handler = incoming_call,
+    gpio = gpio
+)
 
-
+###### Scratch API handlers
 @start
 def on_start(scratch):
+    print "Connected to scratch!"
     global global_scratch
     global phone
     global gpio
     global_scratch = scratch
     if connect_to_phone_if_needed():
         phone.set_audio(fona800.FONA_AUDIO_EXTERNAL)
+    else: 
+        easygui.msgbox("Error connecting to FONA")
 
 @broadcast('hi')
 def hi(scratch):
@@ -81,18 +76,6 @@ def pick_up(scratch):
     print "Picking Up"
     phone.receive_call()
 
-@broadcast('turn-led-on')
-def turn_led_on(scratch):
-    global gpio
-    print "LED On"
-    gpio.write(LED_PIN, 1)
-
-@broadcast('turn-led-off')
-def turn_led_off(scratch):
-    global gpio
-    print "LED Off"
-    gpio.write(LED_PIN, 0)
-
 @broadcast('audio-speaker')
 def audio_speaker(scratch):
     global phone
@@ -121,6 +104,7 @@ def dial(scratch):
         print "Dialing... '{}'".format(target_number)
         phone.call_phone(target_number)
 
+###### Handlers for the PiTFT display
 def button_pushed(which):
     global global_scratch
     print "Button {} pressed".format(which)
@@ -136,10 +120,37 @@ for i in range(0, len(BUTTON_PINS)):
         pigpio.FALLING_EDGE,
         lambda pin, level, tick, button=i+1: button_pushed(button)
     )
+
+###### Support for controlling an LED on GPIO-6
 gpio.set_mode(LED_PIN, pigpio.OUTPUT)
 gpio.write(LED_PIN, 0)
 
+@broadcast('turn-led-on')
+def turn_led_on(scratch):
+    global gpio
+    print "LED On"
+    gpio.write(LED_PIN, 1)
 
+@broadcast('turn-led-off')
+def turn_led_off(scratch):
+    global gpio
+    print "LED Off"
+    gpio.write(LED_PIN, 0)
 
+####### Finally, asynchronously connect to the FONA and Scratch
+class FonaConnectThread(threading.Thread):
+    def __init__(self, phone):
+        self.phone = phone
+        threading.Thread.__init__(self)
+
+    def run(self):
+        print "Attempting to connect to FONA..."
+        while not phone.try_connect():
+            print "... FONA connection failed.  Will try again in 5 seconds."
+            sleep(5)
+            print "Re-attempting to connect to FONA..."
+        print "... FONA connection successful!"
+
+FonaConnectThread(phone).start()
 scratra2.run()
 
