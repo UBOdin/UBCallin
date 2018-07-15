@@ -151,6 +151,6 @@ class FonaConnectThread(threading.Thread):
             print "Re-attempting to connect to FONA..."
         print "... FONA connection successful!"
 
-FonaConnectThread(phone).start()
+# FonaConnectThread(phone).start()
 scratra2.run()
 
