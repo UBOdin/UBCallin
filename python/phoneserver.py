@@ -40,7 +40,6 @@ def on_start(scratch):
 
 @broadcast('hi')
 def hi(scratch):
-    connect_to_phone_if_needed()
     global phone
     status_string = "Pi Phone is not connected"
     if phone.is_conneted():
