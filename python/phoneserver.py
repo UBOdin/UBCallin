@@ -37,19 +37,18 @@ def on_start(scratch):
     global phone
     global gpio
     global_scratch = scratch
-    if connect_to_phone_if_needed():
-        phone.set_audio(fona800.FONA_AUDIO_EXTERNAL)
-    else: 
-        easygui.msgbox("Error connecting to FONA")
 
 @broadcast('hi')
 def hi(scratch):
     connect_to_phone_if_needed()
     global phone
-    status_string = "Pi Phone is Not Connected"
-    connection = phone.check_phone()
-    if connection != None:
-        status_string = "Pi Phone is Connected to {}".format(connection)
+    status_string = "Pi Phone is not connected"
+    if phone.is_conneted():
+        connection = phone.check_phone()
+        if connection != None:
+            status_string = "Pi Phone is Connected to {}".format(connection)
+        else:
+            status_string = "Pi Phone is not responding"
     easygui.msgbox(
         status_string,
         title = "Hi from Pi-Phone"
@@ -150,7 +149,9 @@ class FonaConnectThread(threading.Thread):
             print "... FONA connection failed.  Will try again in 5 seconds."
             sleep(5)
             print "Re-attempting to connect to FONA..."
-        print "... FONA connection successful!"
+        print "... FONA connection successful!  Setting audio defaults"
+        phone.set_audio(fona800.FONA_AUDIO_EXTERNAL)
+        print "FONA ready to go!"
 
 FonaConnectThread(phone).start()
 scratra2.run()
