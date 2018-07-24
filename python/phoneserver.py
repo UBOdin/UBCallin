@@ -62,6 +62,13 @@ def toggle_power(scratch):
 def ping(scratch):
     scratch.broadcast('pong')
 
+@broadcast('test-rssi')
+def signal_strength(scratch):
+    global phone
+    easygui.msgbox(
+        "Signal Strength: {}".format(phone.signal_strength())
+    )
+
 @broadcast('hang-up')
 def hang_up(scratch):
     global phone

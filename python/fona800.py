@@ -88,6 +88,33 @@ class Fona800:
         sleep(.25)
         self.gpio.write(self.key_pin, 0)
 
+    def signal_strength(self):
+        """
+        Returns a value in the range 0-31 (inclusive) indicating
+        the signal strength reported by the FONA.  According to
+        the FONA manual:
+        0      = -115 dBm or less
+        1      = -112 dBm
+        2...30 = -110 ... -54 dBm
+        31     = -52 dBm or greater
+        99     = not known or undetectable
+
+        The second field (not returned, but parsed out) is the bit
+        error rate (BER), which follows the conventions defined in
+        GSM 05.08 subclause 7.2.4 (or 99 for error).  (GSM Spec?)
+        """
+        status = self.fona.request('AT+CSQ')
+        for line in status:
+            if line.startswith('+CSQ:'):
+                rssi, ber = line[6:].split(",")
+                rssi = int(rssi)
+                if rssi == 99:
+                    raise EnvironmentError("FONA error reading RSSI")
+                return rssi
+        raise EnvironmentError("Unexpected response from FONA")
+
+
+
     def battery_status(self):
         status = self.fona.request('AT+CBC', 'OK')
         for line in status:
