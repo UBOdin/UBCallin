@@ -66,7 +66,7 @@ def ping(scratch):
 def signal_strength(scratch):
     global phone
     easygui.msgbox(
-        "Signal Strength: {}".format(phone.signal_strength())
+        "Signal Strength: {}%".format(int(phone.signal_strength() / 31.0 * 100))
     )
 
 @broadcast('hang-up')
