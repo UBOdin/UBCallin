@@ -1,6 +1,6 @@
 ---
 layout: page
-title: More Info
+title: For Hackers
 permalink: /about/
 ---
 
@@ -11,11 +11,6 @@ Download the STL files for the pi-phone case and make it your own.
 * [Back Cover](https://github.com/UBOdin/UBCallin/blob/master/models/BackCover.stl)
 * [Front Cover](https://github.com/UBOdin/UBCallin/blob/master/models/FrontCover.stl)
 * [Middle Part](https://github.com/UBOdin/UBCallin/blob/master/models/MiddlePart.stl)
-
-## More Documentation
-
-* [The Raspbery Pi Foundation](https://www.raspberrypi.org/help/) - Getting started with Raspberry Pi, how-tos and help from the organization behind the Raspberry Pi.
-* [Adafruit](https://adafruit.com): A great resource for customizing raspberry pis and tinkering in general.  Adafruit has some amazing How-Tos, and the AdaFruit Blog is a great place for ideas.  Adafruit also sells parts if you need them.
 
 ## Resetting your pi-phone
 

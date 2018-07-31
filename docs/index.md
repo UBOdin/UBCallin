@@ -7,4 +7,4 @@ layout: home
 
 Welcome to UBCallin.  Here we're going to collect resources for you to follow up on the LIBERTY I Can! Summer Program pi-phone project.  If you need help or want someone to bounce ideas off of, you can reach us using the email at the bottom!  
 
-Thanks to the NSF and National Grid for sponsoring this project!
+Thanks to the NSF for sponsoring this project!

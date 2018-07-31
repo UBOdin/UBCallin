@@ -1,8 +1,37 @@
 ---
 layout: page
-title: Scratch API
+title: For Students
 permalink: /docs/
 ---
+
+## Connecting to your Pi Phone
+
+Your Pi Phone has two sets of connectors, two on the Pi itself, and three on the FONA.  On the Pi (under the grip):
+
+* **MiniHDMI**: Use the included HDMI adapter to plug this into your monitor (or a TV).  
+* **MicroUSB**: Use the included MicroUSB to USB adapter to plug in a mouse or keyboard, or a USB Hub that will let you connect more than one thing (Most computer monitors have built-in USB hubs!)
+
+On the FONA (top of the phone):
+
+* **Battery**: Plug the battery in here to turn the FONA on.
+* **MicroUSB**: Plug a standard cell-phone charger like the one included with your kit in to charge your battery.
+* **Four-pole Audio** Plug in any four-pole headphones (the kind with a mic) to call in private (and see the audio broadcasts below).
+
+<img src="../images/piphone-ports.jpg" />
+
+<hr />
+
+## More Documentation
+
+* [Scratch](https://en.scratch-wiki.info/wiki/Scratch_User_Interface_(1.4)) - Learn more about programming in Scratch (your phones have Scratch version 1.4)
+* [The Raspbery Pi Foundation](https://www.raspberrypi.org/help/) - Getting started with Raspberry Pi, how-tos and help from the organization behind the Raspberry Pi.
+* [Adafruit](https://adafruit.com): A great resource for customizing raspberry pis and tinkering in general.  Adafruit has some amazing How-Tos, and the AdaFruit Blog is a great place for ideas.  Adafruit also sells parts if you need them.
+
+<hr />
+
+## FONA Scratch Broadcasts
+
+<p>Here's a list of broadcast messages that you can send in scratch to activate different features of your FONA board.  If you don't already see one of these in the pop-up menu on the <i>Broadcast</i> (or <i>When I Receive</i>) block, pick "New/Edit..." and enter the broadcast messages exactly as it's written below.</p>
 
 <table>
   <tr>
@@ -14,10 +43,13 @@ permalink: /docs/
   </td></tr>
   <tr>
     <td style="font-weight: bold">hi</td>
-      <td>The FONA will respond with a dialog box that shows you the details of the FONA board you're connected to.</td>
+    <td>The FONA will respond with a dialog box that shows you the details of the FONA board you're connected to.</td>
   </tr><tr>
     <td style="font-weight: bold">ping</td>
-      <td>The FONA will respond by broadcasting <b>pong</b></td>
+    <td>The FONA will respond by broadcasting <b>pong</b></td>
+  </tr><tr>
+    <td style="font-weight: bold">test-rssi</td>
+    <td>The FONA will respond with a dialog box that shows you the current signal strength as a percentage from 0 to 100.</td>
   </tr>
 
   <tr><td colspan="2" style="font-weight: bold" align="center">Broadcast messages for managing calls</td></tr>
